@@ -3,6 +3,7 @@ import cv2
 import pyautogui
 import PIL.ImageShow as im
 import mss
+import os
 
 from PIL import Image
 
@@ -128,5 +129,41 @@ def find_chessboard_from_image(img):
         return True, resizedChessBoard , lineStart, columnStart  , lineEnd   , columnEnd  , resizedChessBoard
 
     return False, image, 0, 0, 0, 0 , image
-    
-find_chessboard()
+
+def test_chessboard_detection(imageDir,expectedBoard):
+    valid_image_extensions = [".jpg", ".jpeg", ".png", ".tif", ".tiff"]
+    image_count = 0
+    error_count = 0
+    for file in os.listdir(imageDir):
+        print("\n\nTesting new file ", file)
+        extension = os.path.splitext(file)[1]
+        if extension.lower() not in valid_image_extensions:
+            continue
+        image_count = image_count+1
+        image = cv2.imread(os.path.join(imageDir, file))
+        found_board, resizedChessBoard , minX,minY,maxX,maxY, info_image =  find_chessboard_from_image(image)
+        if found_board != expectedBoard:
+            print("Error in", file)
+            error_count = error_count + 1
+            cv2.imwrite("Errors/Error" + repr(expectedBoard) + file,info_image)
+        else:
+            cv2.imwrite("Errors/NoError" + repr(expectedBoard) + file,info_image)
+
+    #print("Had ", error_count, " error_count out of ", image_count, " images")
+    return image_count,error_count
+def global_test_chessboard_detection():
+
+
+    #Images having a board
+    print("\nTreating images having a board : ")
+    image_count,error_count = test_chessboard_detection("TestImages/withBoard/",True)
+    print("Errors with images having a board : ", 100 * error_count/image_count, "%")
+
+    #Images having no board
+    print("\nTreating images having no board : ")
+    image_count,error_count = test_chessboard_detection("TestImages/withoutBoard/",False)
+    print("Errors with images not having a board : ", 100 * error_count/image_count, "%")
+
+    print("\n Please find outputs in the folder Errors/")
+
+global_test_chessboard_detection()
