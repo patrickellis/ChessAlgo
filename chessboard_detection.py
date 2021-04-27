@@ -93,12 +93,12 @@ def find_chessboard():
     #     print(f"New size: ({img.shape[1]} x {img.shape[0]})")
     img, factor = image_resize(img, 1000)
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    im.show(img)
     gray = np.asarray(gray, dtype=np.float32)
     is_found, current_chessboard_image,minX,minY,maxX,maxY,test_image = find_chessboard_from_image(gray)
     position = game_state_classes.Board_position(minX,minY,maxX,maxY,factor)
 
     return is_found, position
+
 
 
 def get_chessboard(game_state,resolution=(200,200)):
@@ -383,3 +383,4 @@ def getAllSequences(seq, min_seq_len=7, err_px=5):
                 s = np.array(s)
                 seqs.append(s)
     return seqs
+find_chessboard()
