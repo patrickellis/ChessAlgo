@@ -14,7 +14,7 @@ This means that the bot can solve puzzles dynamically on almost any website.
 
 ## Artifical Intelligence
 ChessAlgo involves a sequential pre-processing pipeline. The first step involves locating the board on the screen, done through (relatively) straightforward gradient analysis. 
-The second step uses a neural network trained on many chessoard images to convert an image of a chess board to its string representation to be passed to a chess engine for analysis. 
+The second step uses a neural network trained on many chessboard images to convert an image of a chessboard to its string representation to be passed to a chess engine for analysis. 
 <p align="center">
   <img src = "https://github.com/patrickellis/Portfolio/blob/master/images/docs/anti-gif-2.gif" style="padding-top:100px; width:350px;height:350px;" width="650" />
 </p>
